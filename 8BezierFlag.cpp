@@ -13,16 +13,6 @@ struct w{
     GLfloat x,y,z;
 };
 
-//calc nCr
-void bino(GLint n, GLint *c){
-    GLint k,j;
-    for(k=0; k<=n; k++){
-        c[k]=1;
-        for(j=n; j>=k+1; j--) c[k] *= j;
-        for(j=n-k; j>=2; j--) c[k] /= j;
-    }
-}
-
 //to compute bezier points
 void compute(GLfloat u, w *bezPt, GLint ncp, w *ctrl, GLint *c){
     GLint k, n=ncp-1;
@@ -42,10 +32,8 @@ void compute(GLfloat u, w *bezPt, GLint ncp, w *ctrl, GLint *c){
 void bezier(w *ctrl, GLint ncp, GLint nbcp){
     w bcp;
     GLfloat u;
-    GLint *c, k;
-    c = new GLint[ncp];
-
-    bino(ncp-1, c);
+    GLint k;
+    int c[] ={1,3,3,1};
 
     glBegin(GL_LINE_STRIP);
     for(k=0; k<nbcp; k++){
@@ -54,7 +42,6 @@ void bezier(w *ctrl, GLint ncp, GLint nbcp){
         glVertex2f(bcp.x, bcp.y);
     }
     glEnd();
-    delete[] c;
 }
 
 void display(){
@@ -69,9 +56,9 @@ void display(){
         ctrl[2].x -= 10*sin((theta+30)*PI/180.0);
         ctrl[2].y -= 10*sin((theta+30)*PI/180.0);
         ctrl[3].x -= 4*sin(theta*PI/180.0);
-        ctrl[4].y += sin((theta-30)*PI/180.0);
+        ctrl[3].y += sin((theta-30)*PI/180.0);
 
-        if(choice==3) theta+=1.0;
+        if(choice==3) theta+=3.0;
 
         glClear(GL_COLOR_BUFFER_BIT);
         glColor3f(1.0, 1.0, 1.0);
